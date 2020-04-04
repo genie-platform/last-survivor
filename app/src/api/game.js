@@ -23,3 +23,21 @@ export const fetchCurrentRound = (number) =>
       'Authorization': `Bearer ${loadState('state.user').jwtToken}`
     }
   }).then(response => response.json())
+
+export const fetchMyWins = () =>
+  window.fetch(window.CONFIG.api.baseUrl + '/rounds/wins', {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${loadState('state.user').jwtToken}`
+    }
+  }).then(response => response.json())
+
+export const claim = () =>
+  window.fetch(window.CONFIG.api.baseUrl + '/rounds/wins', {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${loadState('state.user').jwtToken}`
+    }
+  }).then(response => response.json())

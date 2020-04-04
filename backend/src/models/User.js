@@ -6,7 +6,8 @@ const UserSchema = new Schema({
   email: { type: String, required: [true, "can't be blank"], validate: [ validator.isEmail, 'invalid email' ] },
   name: { type: String, required: [true, "can't be blank"] },
   externalId: { type: String, required: [true, "can't be blank"] },
-  provider: { type: String, required: [true, "can't be blank"] }
+  provider: { type: String, required: [true, "can't be blank"] },
+  accountAddress: { type: String }
 }, { timestamps: true })
 
 UserSchema.index({ externalId: 1 }, { unique: true })

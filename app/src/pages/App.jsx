@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import {
-  useHistory
+  useHistory,
+  Link
 } from 'react-router-dom'
 import IntroPage from './Intro'
 import GamePage from './Game'
 import { fetchCurrentRound } from '../api/game'
 import { useAsync } from 'react-use'
 
-export default function App ({ user, onIntroDone }) {
+export default function App ({ user, onIntroDone, rewards }) {
   const history = useHistory()
   const [guess, setGuess] = useState(0)
 
@@ -34,6 +35,9 @@ export default function App ({ user, onIntroDone }) {
         !user.isIntroDone
           ? <IntroPage onIntroDone={onIntroDone} />
           : <GamePage guess={guess} loading={state.loading} />
+      }
+      {
+        rewards.length > 0 && <Link to='/rewards'>Your rewards</Link>
       }
     </div>
   )

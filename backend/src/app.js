@@ -2,7 +2,7 @@ require('module-alias/register')
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const paginate = require('express-paginate')
 const process = require('process')
 const util = require('util')
@@ -10,6 +10,7 @@ const config = require('config')
 const path = require('path')
 
 require('express-async-errors')
+require('./services/mongoose')
 
 async function init () {
   console.log(util.inspect(config, { depth: null }))
@@ -32,16 +33,17 @@ async function init () {
 
   app.use(express.static(path.join(__dirname, '../public')))
 
-  mongoose.set('debug', config.get('mongo.debug'))
-  mongoose.set('useFindAndModify', false)
-  mongoose.set('useCreateIndex', true)
+  // require()
+  // mongoose.set('debug', config.get('mongo.debug'))
+  // mongoose.set('useFindAndModify', false)
+  // mongoose.set('useCreateIndex', true)
 
-  mongoose.connect(config.get('mongo.uri'), config.get('mongo.options')).catch((error) => {
-    console.error(error)
-    process.exit(1)
-  })
+  // mongoose.connect(config.get('mongo.uri'), config.get('mongo.options')).catch((error) => {
+  //   console.error(error)
+  //   process.exit(1)
+  // })
 
-  require('./models')
+  // require('./models')
 
   app.use(require('./routes'))
 

@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect,
-  useHistory
+  Route
 } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 
 import LoginPage from './pages/Login'
 import AppPage from './pages/App'
+import RewardsPage from './pages/Rewards'
+
+import { fetchMyWins } from './api/game'
+import { fetchProfile, updateAccountAddress } from './api/users'
 
 import { saveState, loadState } from './utils/storage'
 
@@ -26,23 +28,6 @@ window.CONFIG = {
   }
 }
 
-// This example has 3 pages: a public page, a protected
-// page, and a login screen. In order to see the protected
-// page, you must first login. Pretty standard stuff.
-//
-// First, visit the public page. Then, visit the protected
-// page. You're not yet logged in, so you are redirected
-// to the login page. After you login, you are redirected
-// back to the protected page.
-//
-// Notice the URL change each time. If you click the back
-// button at this point, would you expect to go back to the
-// login page? No! You're already logged in. Try it out,
-// and you'll see you go back to the page you visited
-// just *before* logging in, the public page.
-
-// export default class Root extends Component {
-
 export default class Root extends Component {
   constructor (props) {
     super(props)
@@ -52,7 +37,9 @@ export default class Root extends Component {
       isIntroDone: false
     }
     this.state = {
-      user: user
+      user: user,
+      profile: undefined,
+      rewards: []
     }
   }
 
@@ -66,25 +53,54 @@ export default class Root extends Component {
     saveState('state.user', { ...this.state.user, isIntroDone })
   }
 
-  // componentDidMount () {
-  //   const user = loadState('state.user')
-  //   if (user) {
-  //     this.setState({ user: user })
-  //   }
-  // }
+  handleRewardsFetched = (rewards) => {
+    this.setState({ rewards })
+  }
 
-  // componentDidUpdate () {
-  //   console.log(state.user.isAuthenticated)
-  // }
+  updateAccountAddress = async (accountAddress) => {
+    const profile = await updateAccountAddress(accountAddress)
+    this.setState({ profile })
+  }
+
+  async componentDidUpdate (prevProps, prevState) {
+    if (this.state.user.isAuthenticated && !prevState.user.isAuthenticated) {
+      this.fetchMyWins()
+      this.fetchProfile()
+    }
+  }
+
+  async componentDidMount () {
+    if (this.state.user.isAuthenticated) {
+      this.fetchMyWins()
+      this.fetchProfile()
+    }
+  }
+
+  async fetchMyWins () {
+    const { data } = await fetchMyWins()
+    if (data) {
+      this.setState({ rewards: data })
+    }
+  }
+
+  async fetchProfile () {
+    const { data } = await fetchProfile()
+    if (data) {
+      this.setState({ profile: data })
+    }
+  }
 
   render = () => (
     <Router history={history}>
       <Switch>
         <Route exact path='/'>
-          <AppPage user={this.state.user} onIntroDone={this.handleIntroDone} />
+          <AppPage user={this.state.user} onIntroDone={this.handleIntroDone} rewards={this.state.rewards} />
         </Route>
         <Route path='/login'>
           <LoginPage onLoginSuccess={this.handleLoginSuccess} />
+        </Route>
+        <Route path='/rewards'>
+          <RewardsPage rewards={this.state.rewards} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />
         </Route>
       </Switch>
     </Router>

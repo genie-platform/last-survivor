@@ -6,7 +6,8 @@ const ROUND_INTERVAL = 2 * 60 * 60 * 1000 // two hours
 const RoundSchema = new Schema({
   startingAt: { type: Date, required: [true, "can't be blank"] },
   endingAt: { type: Date, required: [true, "can't be blank"] },
-  winnerId: { type: String }
+  winnerId: { type: String },
+  reward: { type: String }
 }, { timestamps: true })
 
 RoundSchema.statics.startRound = function (cb) {
