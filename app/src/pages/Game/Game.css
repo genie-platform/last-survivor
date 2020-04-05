@@ -1,0 +1,10 @@
+.hidden {
+  visibility: hidden;
+}
+
+.guess .title {
+  position: absolute;
+  top: 20px;
+  color: red;
+  left: 20px;
+}

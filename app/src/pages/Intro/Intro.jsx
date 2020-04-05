@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './Intro.css'
 
 const FirstSlide = () =>
   <div>
@@ -31,10 +32,10 @@ export default function Intro ({ onIntroDone }) {
   const handleNext = () => slide === slides.length - 1 ? onIntroDone(true) : setSlide(slide + 1)
 
   return (
-    <div>
-      Intro
+    <div className='intro'>
+      <div className='title'>Intro</div>
       {slides[slide]}
-      <div>
+      <div className='buttons'>
         <button disabled={slide === 0} onClick={handleBack}>back</button>
         <button onClick={handleNext}>next</button>
       </div>

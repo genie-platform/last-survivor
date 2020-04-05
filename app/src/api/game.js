@@ -24,12 +24,12 @@ export const fetchCurrentRound = (number) =>
     }
   }).then(response => response.json())
 
-export const fetchMyWins = () =>
+export const fetchMyWins = ({ jwtToken }) =>
   window.fetch(window.CONFIG.api.baseUrl + '/rounds/wins', {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${loadState('state.user').jwtToken}`
+      'Authorization': `Bearer ${jwtToken}`
     }
   }).then(response => response.json())
 

@@ -3,14 +3,15 @@ import {
   useHistory,
   Link
 } from 'react-router-dom'
-import IntroPage from './Intro'
-import GamePage from './Game'
+import IntroPage from './Intro/Intro'
+import GamePage from './Game/Game'
 import { fetchCurrentRound } from '../api/game'
 import { useAsync } from 'react-use'
 
 export default function App ({ user, onIntroDone, rewards }) {
   const history = useHistory()
-  const [guess, setGuess] = useState(0)
+  // const [guess, setGuess] = useState(0)
+  const [currentRound, setCurrentRound] = useState({})
 
   useEffect(() => {
     if (!user.isAuthenticated) {
@@ -22,7 +23,7 @@ export default function App ({ user, onIntroDone, rewards }) {
     if (user.isAuthenticated) {
       const { data } = await fetchCurrentRound()
       if (data) {
-        setGuess(data.guess)
+        setCurrentRound(data)
       }
       return data
     }
@@ -30,14 +31,14 @@ export default function App ({ user, onIntroDone, rewards }) {
 
   return (
     <div>
-      <h3>Welcome to the last survivor</h3>
+      {/* <h3>Welcome to the last survivor</h3> */}
       {
         !user.isIntroDone
           ? <IntroPage onIntroDone={onIntroDone} />
-          : <GamePage guess={guess} loading={state.loading} />
+          : <GamePage round={currentRound} loading={state.loading} />
       }
       {
-        rewards.length > 0 && <Link to='/rewards'>Your rewards</Link>
+        // rewards.length > 0 && <Link to='/rewards'>Your rewards</Link>
       }
     </div>
   )

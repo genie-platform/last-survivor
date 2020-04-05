@@ -2,12 +2,12 @@
 
 import { loadState } from '../utils/storage'
 
-export const fetchProfile = () =>
+export const fetchProfile = ({ jwtToken }) =>
   window.fetch(window.CONFIG.api.baseUrl + '/users', {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${loadState('state.user').jwtToken}`
+      'Authorization': `Bearer ${jwtToken}`
     }
   }).then(response => response.json())
 

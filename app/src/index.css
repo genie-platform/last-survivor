@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.page-title {
+  position: absolute;
+  top: 20px;
+  color: red;
+  left: 20px;
+}

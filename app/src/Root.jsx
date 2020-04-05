@@ -6,10 +6,10 @@ import {
 } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 
-import LoginPage from './pages/Login'
+import LoginPage from './pages/Login/Login'
 import AppPage from './pages/App'
 import RewardsPage from './pages/Rewards'
-
+import Layout from './components/Layout/Layout'
 import { fetchMyWins } from './api/game'
 import { fetchProfile, updateAccountAddress } from './api/users'
 
@@ -77,32 +77,34 @@ export default class Root extends Component {
   }
 
   async fetchMyWins () {
-    const { data } = await fetchMyWins()
+    const { data } = await fetchMyWins(this.state.user)
     if (data) {
       this.setState({ rewards: data })
     }
   }
 
   async fetchProfile () {
-    const { data } = await fetchProfile()
+    const { data } = await fetchProfile(this.state.user)
     if (data) {
       this.setState({ profile: data })
     }
   }
 
   render = () => (
-    <Router history={history}>
-      <Switch>
-        <Route exact path='/'>
-          <AppPage user={this.state.user} onIntroDone={this.handleIntroDone} rewards={this.state.rewards} />
-        </Route>
-        <Route path='/login'>
-          <LoginPage onLoginSuccess={this.handleLoginSuccess} />
-        </Route>
-        <Route path='/rewards'>
-          <RewardsPage rewards={this.state.rewards} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />
-        </Route>
-      </Switch>
-    </Router>
-  );
+    <Layout>
+      <Router history={history}>
+        <Switch>
+          <Route exact path='/'>
+            <AppPage user={this.state.user} onIntroDone={this.handleIntroDone} rewards={this.state.rewards} />
+          </Route>
+          <Route path='/login'>
+            <LoginPage onLoginSuccess={this.handleLoginSuccess} />
+          </Route>
+          <Route path='/rewards'>
+            <RewardsPage rewards={this.state.rewards} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />
+          </Route>
+        </Switch>
+      </Router>
+    </Layout>
+  )
 }
