@@ -10,7 +10,8 @@ import LoginPage from './pages/Login/Login'
 import AppPage from './pages/App'
 import RewardsPage from './pages/Rewards'
 import Layout from './components/Layout/Layout'
-import { fetchMyWins } from './api/game'
+import { fetchMyWins, fetchCurrentRound } from './api/game'
+
 import { fetchProfile, updateAccountAddress } from './api/users'
 
 import { saveState, loadState } from './utils/storage'
@@ -29,7 +30,7 @@ window.CONFIG = {
 }
 
 export default class Root extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     const user = loadState('state.user') || {
       isAuthenticated: false,
@@ -39,6 +40,7 @@ export default class Root extends Component {
     this.state = {
       user: user,
       profile: undefined,
+      currentRound: undefined,
       rewards: []
     }
   }
@@ -74,6 +76,7 @@ export default class Root extends Component {
       this.fetchMyWins()
       this.fetchProfile()
     }
+    this.fetchCurrentRound()
   }
 
   async fetchMyWins () {
@@ -90,15 +93,23 @@ export default class Root extends Component {
     }
   }
 
+  async fetchCurrentRound () {
+    const { data } = await fetchCurrentRound(this.state.user)
+    if (data) {
+      this.setState({ currentRound: data })
+    }
+    return data
+  }
+
   render = () => (
     <Layout>
       <Router history={history}>
         <Switch>
           <Route exact path='/'>
-            <AppPage user={this.state.user} onIntroDone={this.handleIntroDone} rewards={this.state.rewards} />
+            <AppPage user={this.state.user} currentRound={this.state.currentRound} onIntroDone={this.handleIntroDone} rewards={this.state.rewards} />
           </Route>
           <Route path='/login'>
-            <LoginPage onLoginSuccess={this.handleLoginSuccess} />
+            <LoginPage onLoginSuccess={this.handleLoginSuccess} currentRound={this.state.currentRound} />
           </Route>
           <Route path='/rewards'>
             <RewardsPage rewards={this.state.rewards} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />

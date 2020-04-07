@@ -10,7 +10,8 @@
 	right: 0;
   margin: auto;
   padding: 20px;
-  
+  text-align: center;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,4 +26,10 @@
 .game > .bottom {
   bottom: 10px;
   position: fixed;
+}
+
+.game > .footer {
+  position: absolute;
+  bottom: -60px;
+  color: red
 }

@@ -6,14 +6,14 @@ import { GoogleLogin } from 'react-google-login'
 import { login } from '../../api/auth'
 import './Login.css'
 
-export default function LoginPage (props) {
+export default function LoginPage ({ onLoginSuccess, currentRound }) {
   const { clientId } = window.CONFIG.api.auth.google
 
   const history = useHistory()
 
   const handleLogin = ({ tokenId }) => {
     login(tokenId).then(({ token }) => {
-      props.onLoginSuccess(token)
+      onLoginSuccess(token)
       history.push('/')
     })
   }
@@ -21,7 +21,7 @@ export default function LoginPage (props) {
   return (
     <div className='login'>
       <div className='page-title'>
-        A riddle about numbers,<br /> psychology and vampires.
+        A riddle of numbers,<br /> psychology and vampires.
       </div>
       <div className='google'>
         <GoogleLogin
@@ -31,8 +31,10 @@ export default function LoginPage (props) {
           cookiePolicy='single_host_origin'
         />
       </div>
-      <div>
-        Be the last survivor and win a reward in DAI
+      <div className='text'>
+        Become the last one to survive and win
+        <br />
+        <div className='blink'>{currentRound && currentRound.reward && `${Math.round(currentRound.reward * 100) / 100} DAI`}</div>
       </div>
     </div>
   )

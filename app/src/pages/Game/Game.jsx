@@ -3,7 +3,7 @@ import { makeGuess } from '../../api/game'
 import classNames from 'classnames'
 import './Game.css'
 
-export default function Game ({ round, loading }) {
+export default function Game ({ userState, loading }) {
   const [value, setValue] = useState(0)
 
   const handleChange = (event) => {
@@ -15,29 +15,25 @@ export default function Game ({ round, loading }) {
   }
 
   useEffect(() => {
-    if (round.guess) {
-      setValue(round.guess)
+    if (userState.guess) {
+      setValue(userState.guess)
     }
-  }, [round.guess])
+  }, [userState.guess])
 
   return (
     <div className='guess'>
       <div className='title'>The Guess</div>
-      <div>
-        Time to choose
-      </div>
       <div className={classNames({ hidden: loading })}>
         {
-          round.guess
-            ? `So you think that the cabin number ${round.guess} will survive `
+          userState.guess
+            ? `So you think that the cabin number ${userState.guess} will survive `
             : 'Now, This is the time to choose!'
         }
         <div><input type='number' value={value} onChange={handleChange} /></div>
-        <button onClick={handleGuess}>{round.guess ? 'Want to change?' : 'Make a guess'}</button>
-        {/* <div>
-          Or read the rules again
-        </div> */}
+        <button onClick={handleGuess}>{userState.guess ? 'Want to change?' : 'Make a guess'}</button>
       </div>
+      <div className='back'>{'<-Back'}</div>
+      <div className='next'>{'Results->'}</div>
     </div>
   )
 }

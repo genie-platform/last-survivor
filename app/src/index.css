@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-weight: 500;
+  user-select: none
 }
 
 code {
@@ -18,4 +20,21 @@ code {
   top: 20px;
   color: red;
   left: 20px;
+}
+
+.back {
+  position: absolute;
+  bottom: 20px;
+  color: red;
+  left: 20px;
+  cursor: pointer;
+}
+
+
+.next {
+  position: absolute;
+  bottom: 20px;
+  color: red;
+  right: 20px;
+  cursor: pointer;
 }

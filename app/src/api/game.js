@@ -15,7 +15,16 @@ export const makeGuess = (number) =>
     })
   }).then(response => response.json())
 
-export const fetchCurrentRound = (number) =>
+export const fetchCurrentRound = ({ jwtToken }) =>
+  window.fetch(window.CONFIG.api.baseUrl + '/rounds/current', {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwtToken}`
+    }
+  }).then(response => response.json())
+
+  export const fetchCurrentState = () =>
   window.fetch(window.CONFIG.api.baseUrl + '/rounds/current/state', {
     headers: {
       'Accept': 'application/json',

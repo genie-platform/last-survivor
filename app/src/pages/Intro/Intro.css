@@ -1,11 +1,10 @@
-
-.intro .title {
-  position: absolute;
-  top: 20px;
-  color: red;
-}
-
 .intro .buttons {
   margin: auto;
   width: 100px;
+  /* padding-top: 10px; */
+}
+
+
+.intro .buttons button {
+  margin: 10px 5px;
 }
