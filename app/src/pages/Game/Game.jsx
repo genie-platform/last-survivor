@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { makeGuess } from '../../api/game'
 import classNames from 'classnames'
+import {
+  Link
+} from 'react-router-dom'
 import './Game.css'
 
 export default function Game ({ userState, loading }) {
@@ -33,7 +36,8 @@ export default function Game ({ userState, loading }) {
         <button onClick={handleGuess}>{userState.guess ? 'Want to change?' : 'Make a guess'}</button>
       </div>
       <div className='back'>{'<-Back'}</div>
-      <div className='next'>{'Results->'}</div>
+      <Link to='/sails'><div className='next'>{'My Sails->'}</div></Link>
+      <Link to='/profile'><div className='next-up'>{'My Profile->'}</div></Link>
     </div>
   )
 }

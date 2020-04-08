@@ -8,9 +8,10 @@ import { createBrowserHistory } from 'history'
 
 import LoginPage from './pages/Login/Login'
 import AppPage from './pages/App'
-import RewardsPage from './pages/Rewards'
+import SailsPage from './pages/Sails/Sails'
+import ProfilePage from './pages/Profile/Profile'
 import Layout from './components/Layout/Layout'
-import { fetchMyWins, fetchCurrentRound } from './api/game'
+import { fetchMyWins, fetchMyRounds, fetchCurrentRound } from './api/game'
 
 import { fetchProfile, updateAccountAddress } from './api/users'
 
@@ -30,7 +31,7 @@ window.CONFIG = {
 }
 
 export default class Root extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     const user = loadState('state.user') || {
       isAuthenticated: false,
@@ -41,7 +42,8 @@ export default class Root extends Component {
       user: user,
       profile: undefined,
       currentRound: undefined,
-      rewards: []
+      rewards: [],
+      myRounds: []
     }
   }
 
@@ -68,6 +70,7 @@ export default class Root extends Component {
     if (this.state.user.isAuthenticated && !prevState.user.isAuthenticated) {
       this.fetchMyWins()
       this.fetchProfile()
+      this.fetchMyRounds()
     }
   }
 
@@ -75,6 +78,7 @@ export default class Root extends Component {
     if (this.state.user.isAuthenticated) {
       this.fetchMyWins()
       this.fetchProfile()
+      this.fetchMyRounds()
     }
     this.fetchCurrentRound()
   }
@@ -83,6 +87,13 @@ export default class Root extends Component {
     const { data } = await fetchMyWins(this.state.user)
     if (data) {
       this.setState({ rewards: data })
+    }
+  }
+
+  async fetchMyRounds () {
+    const { data } = await fetchMyRounds(this.state.user)
+    if (data) {
+      this.setState({ myRounds: data })
     }
   }
 
@@ -111,8 +122,11 @@ export default class Root extends Component {
           <Route path='/login'>
             <LoginPage onLoginSuccess={this.handleLoginSuccess} currentRound={this.state.currentRound} />
           </Route>
-          <Route path='/rewards'>
-            <RewardsPage rewards={this.state.rewards} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />
+          <Route path='/sails'>
+            <SailsPage userStates={this.state.myRounds} rewards={this.state.rewards} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />
+          </Route>
+          <Route path='/profile'>
+            <ProfilePage userStates={this.state.myRounds} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />
           </Route>
         </Switch>
       </Router>

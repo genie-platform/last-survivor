@@ -7,7 +7,7 @@ import GamePage from './Game/Game'
 import { fetchCurrentState } from '../api/game'
 import { useAsync } from 'react-use'
 
-export default function App ({ user, onIntroDone, rewards }) {
+export default function App ({ user, onIntroDone, currentRound }) {
   const history = useHistory()
   // const [guess, setGuess] = useState(0)
   const [currentState, setCurrentState] = useState({})
@@ -34,7 +34,7 @@ export default function App ({ user, onIntroDone, rewards }) {
       {
         !user.isIntroDone
           ? <IntroPage onIntroDone={onIntroDone} />
-          : <GamePage userState={currentState} loading={state.loading} />
+          : <GamePage currentRound={currentRound} userState={currentState} loading={state.loading} />
       }
       {
         // rewards.length > 0 && <Link to='/rewards'>Your rewards</Link>

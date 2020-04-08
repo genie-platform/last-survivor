@@ -38,3 +38,11 @@ code {
   right: 20px;
   cursor: pointer;
 }
+
+.next-up {
+  position: absolute;
+  top: 20px;
+  color: red;
+  right: 20px;
+  cursor: pointer;
+}

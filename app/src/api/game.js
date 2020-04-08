@@ -24,12 +24,21 @@ export const fetchCurrentRound = ({ jwtToken }) =>
     }
   }).then(response => response.json())
 
-  export const fetchCurrentState = () =>
+export const fetchCurrentState = () =>
   window.fetch(window.CONFIG.api.baseUrl + '/rounds/current/state', {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${loadState('state.user').jwtToken}`
+    }
+  }).then(response => response.json())
+
+export const fetchMyRounds = ({ jwtToken }) =>
+  window.fetch(window.CONFIG.api.baseUrl + '/rounds', {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwtToken}`
     }
   }).then(response => response.json())
 

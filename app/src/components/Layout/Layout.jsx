@@ -4,7 +4,7 @@ import './Layout.css'
 function Layout ({ children }) {
   return (
     <>
-      <div className='game'>
+      <div className='layout'>
         <h3 className='title'>Last Survivor</h3>
         {children}
         <div className='bottom'>

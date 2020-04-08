@@ -1,4 +1,4 @@
-.game {
+.layout {
 	width: 400px;
 	height: 400px;
 	border-style: dashed;
@@ -17,18 +17,18 @@
   align-items: center;
 }
 
-.game > .title {
+.layout > .title {
   top: -60px;
   position: absolute;
   color: red;
 }
 
-.game > .bottom {
+.layout > .bottom {
   bottom: 10px;
   position: fixed;
 }
 
-.game > .footer {
+.layout > .footer {
   position: absolute;
   bottom: -60px;
   color: red

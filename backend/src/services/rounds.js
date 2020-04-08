@@ -12,7 +12,7 @@ const determineWinners = async () => {
 }
 
 const determineWinner = async (round) => {
-  const userStates = await UserState.find({ roundId: round.id })
+  const userStates = await UserState.find({ round: round.id })
   const winner = userStates[0]
 
   const { data } = await request.post('/prizes', {

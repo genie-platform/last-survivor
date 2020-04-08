@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import {
+  useHistory
+} from 'react-router-dom'
+// import './Sails.css'
 
-export default function Rewards ({ rewards, profile, updateAccountAddress }) {
+export default function Rewards ({ userStates, profile, updateAccountAddress }) {
   const [accountAddress, setAccountAddress] = useState()
-
+  const history = useHistory()
   useEffect(() => {
     if (profile && profile.accountAddress) {
       setAccountAddress(profile.accountAddress)
@@ -13,15 +17,23 @@ export default function Rewards ({ rewards, profile, updateAccountAddress }) {
     setAccountAddress(event.target.value)
   }
 
+  const userStatesWins = userStates.filter(userState => userState.isWinner)
+
   const handleAccountAddressUpdate = () => {
     updateAccountAddress(accountAddress)
   }
 
+  const handleBack = () => history.goBack()
+
   return (
-    <>
-      <div>Rewards</div>
+    <div>
+      <div className='page-title'>Profile</div>
       <div>
-        Congratulations, you won!
+        {
+          userStatesWins.length > 0
+            ? `Congratulations, you survived ${userStatesWins.length} sails`
+            : 'Such a pitty, You didn\'t survived'
+        }
       </div>
       {
         accountAddress
@@ -30,13 +42,7 @@ export default function Rewards ({ rewards, profile, updateAccountAddress }) {
       }
       <div><input type='string' value={accountAddress} onChange={handleAccountAddressChange} /></div>
       <button onClick={handleAccountAddressUpdate}>confirm</button>
-      <div>
-        {rewards.map(reward =>
-          <div key={reward._id}>
-            your reward: {reward.reward}$
-          </div>
-        )}
-      </div>
-    </>
+      <div className='back' onClick={handleBack}>{'<-Back'}</div>
+    </div>
   )
 }
