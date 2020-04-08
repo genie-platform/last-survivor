@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import {
+  useHistory
+} from 'react-router-dom'
 import './Intro.css'
 
 const FirstSlide = () =>
@@ -61,15 +64,23 @@ const slides = [
 ]
 
 export default function Intro ({ onIntroDone }) {
+  const history = useHistory()
   const [slide, setSlide] = useState(0)
   const handleBack = () => setSlide(slide - 1)
-  const handleNext = () => slide === slides.length - 1 ? onIntroDone(true) : setSlide(slide + 1)
+  const handleNext = () => {
+    if (slide === slides.length - 1) {
+      onIntroDone(true)
+      history.push('/')
+    } else {
+      setSlide(slide + 1)
+    }
+  }
 
   return (
     <div className='intro'>
       <div className='page-title'>Intro</div>
       <div>{slides[slide]}</div>
       <div disabled={slide === 0} onClick={handleBack} className='back'>{'<-Back'}</div>
-      <div className='next  ' onClick={handleNext}>{'Next->'}</div>
+      <div className='next' onClick={handleNext}>{'Next->'}</div>
     </div>)
 }

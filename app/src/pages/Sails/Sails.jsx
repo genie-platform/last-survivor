@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
   useHistory
 } from 'react-router-dom'
 import './Sails.css'
 
-export default function Rewards ({ userStates, profile, updateAccountAddress }) {
-  const [accountAddress, setAccountAddress] = useState()
+export default function Rewards ({ userStates }) {
   const history = useHistory()
-  useEffect(() => {
-    if (profile && profile.accountAddress) {
-      setAccountAddress(profile.accountAddress)
-    }
-  }, [profile])
-
   const handleBack = () => history.goBack()
 
   return (

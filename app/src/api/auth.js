@@ -5,7 +5,7 @@ export const login = (tokenId) => window.fetch(window.CONFIG.api.baseUrl + '/log
   method: 'POST',
   body: JSON.stringify({ tokenId }),
   headers: {
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'Content-Type': 'application/json'
   }
 }).then(response => response.json())

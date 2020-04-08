@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { makeGuess } from '../../api/game'
 import classNames from 'classnames'
 import {
-  Link
+  Link,
+  useHistory
 } from 'react-router-dom'
-import './Game.css'
+import './Guess.css'
+// import BrowserHistory from 'react-router/lib/BrowserHistory'
 
 export default function Game ({ userState, loading }) {
+  const history = useHistory()
   const [value, setValue] = useState(0)
-
   const handleChange = (event) => {
     setValue(event.target.value)
   }
@@ -35,7 +37,7 @@ export default function Game ({ userState, loading }) {
         <div><input type='number' value={value} onChange={handleChange} /></div>
         <button onClick={handleGuess}>{userState.guess ? 'Want to change?' : 'Make a guess'}</button>
       </div>
-      <div className='back'>{'<-Back'}</div>
+      <div onClick={() => { debugger; history.goBack()}} className='back'>{'<-Back'}</div>
       <Link to='/sails'><div className='next'>{'My Sails->'}</div></Link>
       <Link to='/profile'><div className='next-up'>{'My Profile->'}</div></Link>
     </div>

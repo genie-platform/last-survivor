@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
+  Redirect,
   Route
 } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
@@ -10,6 +11,7 @@ import LoginPage from './pages/Login/Login'
 import AppPage from './pages/App'
 import SailsPage from './pages/Sails/Sails'
 import ProfilePage from './pages/Profile/Profile'
+import IntroPage from './pages/Intro/Intro'
 import Layout from './components/Layout/Layout'
 import { fetchMyWins, fetchMyRounds, fetchCurrentRound } from './api/game'
 
@@ -53,8 +55,10 @@ export default class Root extends Component {
   }
 
   handleIntroDone = (isIntroDone) => {
+    debugger
     this.setState({ user: { ...this.state.user, isIntroDone } })
     saveState('state.user', { ...this.state.user, isIntroDone })
+    // history.push('/')
   }
 
   handleRewardsFetched = (rewards) => {
@@ -117,16 +121,19 @@ export default class Root extends Component {
       <Router history={history}>
         <Switch>
           <Route exact path='/'>
-            <AppPage user={this.state.user} currentRound={this.state.currentRound} onIntroDone={this.handleIntroDone} rewards={this.state.rewards} />
+            <AppPage user={this.state.user} currentRound={this.state.currentRound} rewards={this.state.rewards} />
           </Route>
           <Route path='/login'>
             <LoginPage onLoginSuccess={this.handleLoginSuccess} currentRound={this.state.currentRound} />
           </Route>
           <Route path='/sails'>
-            <SailsPage userStates={this.state.myRounds} rewards={this.state.rewards} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />
+            <SailsPage userStates={this.state.myRounds} />
           </Route>
           <Route path='/profile'>
             <ProfilePage userStates={this.state.myRounds} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />
+          </Route>
+          <Route path='/intro'>
+            <IntroPage onIntroDone={this.handleIntroDone} />
           </Route>
         </Switch>
       </Router>
