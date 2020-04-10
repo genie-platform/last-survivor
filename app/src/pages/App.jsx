@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
+  Switch,
+  Route,
   Redirect
 } from 'react-router-dom'
 import GuessPage from './Guess/Guess'
-import { fetchCurrentState } from '../api/game'
+import StartPage from './Start/Start'
+import { fetchUserState, makeGuess } from '../api/game'
 import { useAsync } from 'react-use'
 
-export default function App({ user, onIntroDone, currentRound }) {
-  // const history = useHistory()
-  const [currentState, setCurrentState] = useState({})
+export default function App ({ user, ...rest }) {
+  const [userState, setUserState] = useState({})
 
-  // useEffect(() => {
-  //   if (!user.isAuthenticated) {
-  //     history.push('/login')
-  //   }
-  // }, [user.isAuthenticated])
+  const handleMakeGuess = (guess) => {
+    debugger
+    makeGuess(guess)
+    setUserState({ ...user, guess })
+  }
 
   const state = useAsync(async () => {
     if (user.isAuthenticated) {
-      const { data } = await fetchCurrentState()
+      const { data } = await fetchUserState()
       if (data) {
-        setCurrentState(data)
+        setUserState(data)
       }
       return data
     }
@@ -43,7 +45,14 @@ export default function App({ user, onIntroDone, currentRound }) {
 
   return (
     <div>
-      <GuessPage currentRound={currentRound} userState={currentState} loading={state.loading} />
+      <Switch>
+        <Route path='/app/start'>
+          <StartPage />
+        </Route>
+        <Route path='/app/guess'>
+          <GuessPage userState={userState} loading={state.loading} handleMakeGuess={handleMakeGuess} {...rest} />
+        </Route>
+      </Switch>
     </div>
   )
 }

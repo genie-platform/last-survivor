@@ -12,10 +12,11 @@
   padding: 20px;
   text-align: center;
 
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
+
 
 .layout > .title {
   top: -60px;

@@ -8,3 +8,11 @@
   color: red;
   left: 20px;
 }
+
+.guess .text {
+  text-align: left;
+}
+
+.guess input {
+  margin: 15px;
+}

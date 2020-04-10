@@ -14,7 +14,7 @@ export default function LoginPage ({ onLoginSuccess, currentRound }) {
   const handleLogin = ({ tokenId }) => {
     login(tokenId).then(({ token }) => {
       onLoginSuccess(token)
-      history.push('/')
+      history.push('/app')
     })
   }
 

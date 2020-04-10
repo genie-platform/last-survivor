@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {
+  Redirect,
   BrowserRouter as Router,
   Switch,
-  Redirect,
   Route
 } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
@@ -54,11 +54,11 @@ export default class Root extends Component {
     saveState('state.user', { ...this.state.user, jwtToken, isAuthenticated: true })
   }
 
-  handleIntroDone = (isIntroDone) => {
-    debugger
+  handleIntroDone = (isIntroDone, { persistent } = { persistent: true }) => {
     this.setState({ user: { ...this.state.user, isIntroDone } })
-    saveState('state.user', { ...this.state.user, isIntroDone })
-    // history.push('/')
+    if (persistent) {
+      saveState('state.user', { ...this.state.user, isIntroDone })
+    }
   }
 
   handleRewardsFetched = (rewards) => {
@@ -120,8 +120,8 @@ export default class Root extends Component {
     <Layout>
       <Router history={history}>
         <Switch>
-          <Route exact path='/'>
-            <AppPage user={this.state.user} currentRound={this.state.currentRound} rewards={this.state.rewards} />
+          <Route path='/app'>
+            <AppPage user={this.state.user} currentRound={this.state.currentRound} onIntroDone={this.handleIntroDone} />
           </Route>
           <Route path='/login'>
             <LoginPage onLoginSuccess={this.handleLoginSuccess} currentRound={this.state.currentRound} />
@@ -135,6 +135,7 @@ export default class Root extends Component {
           <Route path='/intro'>
             <IntroPage onIntroDone={this.handleIntroDone} />
           </Route>
+          <Redirect from='/' to='/app' />
         </Switch>
       </Router>
     </Layout>

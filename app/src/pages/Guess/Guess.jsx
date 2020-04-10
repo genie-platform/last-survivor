@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { makeGuess } from '../../api/game'
 import classNames from 'classnames'
 import {
-  Link,
-  useHistory
+  Link
 } from 'react-router-dom'
 import './Guess.css'
-// import BrowserHistory from 'react-router/lib/BrowserHistory'
+import moment from 'moment'
 
-export default function Game ({ userState, loading }) {
-  const history = useHistory()
+
+const formatDate = (d) => moment(d).format('Do of MMMM, h [o\'clock] a') 
+
+export default function Game ({ userState, loading, currentRound, onIntroDone, handleMakeGuess }) {
   const [value, setValue] = useState(0)
+
   const handleChange = (event) => {
     setValue(event.target.value)
-  }
-
-  const handleGuess = () => {
-    makeGuess(value)
   }
 
   useEffect(() => {
@@ -25,20 +22,50 @@ export default function Game ({ userState, loading }) {
     }
   }, [userState.guess])
 
+  const handleBack = () => onIntroDone(false, { persistent: false })
+
+  if (!currentRound) {
+    return null
+  }
+  // var a = moment('2020-03-30T07:33:58.152Z')
+  debugger
   return (
     <div className='guess'>
-      <div className='title'>The Guess</div>
-      <div className={classNames({ hidden: loading })}>
-        {
-          userState.guess
-            ? `So you think that the cabin number ${userState.guess} will survive `
-            : 'Now, This is the time to choose!'
-        }
-        <div><input type='number' value={value} onChange={handleChange} /></div>
-        <button onClick={handleGuess}>{userState.guess ? 'Want to change?' : 'Make a guess'}</button>
+      <div className='page-title'>On the Board</div>
+      <div className='text'>
+        Dear Sir or Madame, <br />
+          The crew and the Captain welcomes you on board
+        <br />
+        <br />
+        <br />
+        {`The ship is leaving the shore on ${formatDate(currentRound.startingAt)} exactly`}
+        {`. And reaches its destionation on ${formatDate(currentRound.endingAt)}, approximately`}
+        <br />
+        <div className={classNames({ hidden: loading })}>
+          {
+            userState.guess
+              ? <>
+                <span>{`The cabin you choose is ${userState.guess}`}</span>
+                <br />
+                <br />
+                <div>{`Enjoy your sail, you'll arrive shore in ${moment(currentRound.endingAt).diff(currentRound.startingAt, 'hours')} hours`}</div>
+              </>
+              : <>
+                <span>Now, please choose your cabin bellow</span>
+                <div className='center'><input type='number' value={value} onChange={handleChange} /></div>
+              </>
+          }
+        </div>
       </div>
-      <div onClick={() => { debugger; history.goBack()}} className='back'>{'<-Back'}</div>
-      <Link to='/sails'><div className='next'>{'My Sails->'}</div></Link>
+      <div onClick={handleBack} className='back'>{'<-Intro'}</div>
+      {
+        userState.guess
+          ? <Link to='/sails'>
+            <div className='next'>{'My Sails->'}</div>
+          </Link>
+          : <div onClick={() => handleMakeGuess(value)} className='next'>{'Confirm->'}</div>
+
+      }
       <Link to='/profile'><div className='next-up'>{'My Profile->'}</div></Link>
     </div>
   )
