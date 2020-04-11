@@ -28,7 +28,9 @@ const determineWinner = async (round) => {
 
   round.reward = data.amount
   round.winnerId = winner.user
-
+  round.isDone = true
+  userStates[0].isWinner = true
+  await userStates[0].save()
   return round.save()
 }
 

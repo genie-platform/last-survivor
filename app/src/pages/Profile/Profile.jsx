@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import {
-  useHistory
-} from 'react-router-dom'
-// import './Sails.css'
+import Back from '../../components/Back'
+import Sails from '../../components/Sails/Sails'
 
 export default function Rewards ({ userStates, profile, updateAccountAddress }) {
   const [accountAddress, setAccountAddress] = useState()
-  const history = useHistory()
   useEffect(() => {
     if (profile && profile.accountAddress) {
       setAccountAddress(profile.accountAddress)
@@ -23,7 +20,6 @@ export default function Rewards ({ userStates, profile, updateAccountAddress }) 
     updateAccountAddress(accountAddress)
   }
 
-  const handleBack = () => history.goBack()
 
   return (
     <div>
@@ -42,7 +38,8 @@ export default function Rewards ({ userStates, profile, updateAccountAddress }) 
       }
       <div><input type='string' value={accountAddress} onChange={handleAccountAddressChange} /></div>
       <button onClick={handleAccountAddressUpdate}>confirm</button>
-      <div className='back' onClick={handleBack}>{'<-Back'}</div>
+      <Sails userStates={userStates} />
+      <Back />
     </div>
   )
 }

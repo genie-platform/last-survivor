@@ -34,8 +34,7 @@ router.get('/', auth.required, async (req, res) => {
   const { user } = req
   const userStatesWithRounds = await UserState.find({ user: user.id })
     .populate('round')
-
-  const userStatesWithWinningRounds = userStatesWithRounds.map(userState => userState.user.toString() === userState.round.winnerId ? { ...userState.toJSON(), isWinner: true } : lodash.omit(userState.toJSON(), 'round.winnerId'))
+  const userStatesWithWinningRounds = userStatesWithRounds.map(userState => userState.user.toString() === userState.round.winnerId ? userState.toJSON() : lodash.omit(userState.toJSON(), 'round.winnerId'))
   res.send({ data: userStatesWithWinningRounds })
 })
 

@@ -7,9 +7,9 @@ import './Guess.css'
 import moment from 'moment'
 
 
-const formatDate = (d) => moment(d).format('Do of MMMM, h [o\'clock] a') 
+const formatDate = (d) => moment(d).format('Do of MMMM, h [o\'clock] a')
 
-export default function Game ({ userState, loading, currentRound, onIntroDone, handleMakeGuess }) {
+export default function Guess ({ userState, loading, round, onIntroDone, handleMakeGuess }) {
   const [value, setValue] = useState(0)
 
   const handleChange = (event) => {
@@ -24,11 +24,6 @@ export default function Game ({ userState, loading, currentRound, onIntroDone, h
 
   const handleBack = () => onIntroDone(false, { persistent: false })
 
-  if (!currentRound) {
-    return null
-  }
-  // var a = moment('2020-03-30T07:33:58.152Z')
-  debugger
   return (
     <div className='guess'>
       <div className='page-title'>On the Board</div>
@@ -38,17 +33,20 @@ export default function Game ({ userState, loading, currentRound, onIntroDone, h
         <br />
         <br />
         <br />
-        {`The ship is leaving the shore on ${formatDate(currentRound.startingAt)} exactly`}
-        {`. And reaches its destionation on ${formatDate(currentRound.endingAt)}, approximately`}
+        {`The ship is leaving the shore on ${formatDate(round.startingAt)} exactly. `}
+        {`And reaches its destionation on ${formatDate(round.endingAt)}, approximately.`}
         <br />
         <div className={classNames({ hidden: loading })}>
           {
             userState.guess
               ? <>
-                <span>{`The cabin you choose is ${userState.guess}`}</span>
+                <span>{`You cabin is number ${userState.guess}`}</span>
                 <br />
                 <br />
-                <div>{`Enjoy your sail, you'll arrive shore in ${moment(currentRound.endingAt).diff(currentRound.startingAt, 'hours')} hours`}</div>
+                {round.isDone
+                  ? <div>The ship arrived <br /></div>
+                  : <div>{`Enjoy your sail, you'll arrive shore in ${moment(round.endingAt).diff(round.startingAt, 'hours')} hours`}</div>
+                }
               </>
               : <>
                 <span>Now, please choose your cabin bellow</span>
@@ -60,9 +58,11 @@ export default function Game ({ userState, loading, currentRound, onIntroDone, h
       <div onClick={handleBack} className='back'>{'<-Intro'}</div>
       {
         userState.guess
-          ? <Link to='/sails'>
-            <div className='next'>{'My Sails->'}</div>
-          </Link>
+          ? round.isDone
+            ? <Link to='/app/finish'>
+              <div className='next'>{'Continue->'}</div>
+            </Link>
+            : <div className='next disabled'>{'Continue->'}</div>
           : <div onClick={() => handleMakeGuess(value)} className='next'>{'Confirm->'}</div>
 
       }

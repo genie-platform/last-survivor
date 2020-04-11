@@ -24,8 +24,8 @@ export const fetchCurrentRound = ({ jwtToken }) =>
     }
   }).then(response => response.json())
 
-export const fetchUserState = () =>
-  window.fetch(window.CONFIG.api.baseUrl + '/rounds/current/state', {
+export const fetchLastUserState = () =>
+  window.fetch(window.CONFIG.api.baseUrl + '/states/last', {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

@@ -5,22 +5,21 @@ import {
   Redirect
 } from 'react-router-dom'
 import GuessPage from './Guess/Guess'
-import StartPage from './Start/Start'
-import { fetchUserState, makeGuess } from '../api/game'
+import FinishPage from './Finish/Finish'
+import { fetchLastUserState, makeGuess } from '../api/game'
 import { useAsync } from 'react-use'
 
-export default function App ({ user, ...rest }) {
+export default function App({ user, currentRound, ...rest }) {
   const [userState, setUserState] = useState({})
 
   const handleMakeGuess = (guess) => {
-    debugger
     makeGuess(guess)
     setUserState({ ...user, guess })
   }
 
   const state = useAsync(async () => {
     if (user.isAuthenticated) {
-      const { data } = await fetchUserState()
+      const { data } = await fetchLastUserState()
       if (data) {
         setUserState(data)
       }
@@ -43,15 +42,33 @@ export default function App ({ user, ...rest }) {
     />
   }
 
+  if (state.loading || !currentRound) {
+    return null
+  }
+
+  const round = userState ? userState.round : currentRound
+
   return (
     <div>
       <Switch>
-        <Route path='/app/start'>
-          <StartPage />
-        </Route>
         <Route path='/app/guess'>
-          <GuessPage userState={userState} loading={state.loading} handleMakeGuess={handleMakeGuess} {...rest} />
+          <GuessPage userState={userState} round={round} loading={state.loading} handleMakeGuess={handleMakeGuess} {...rest} />
         </Route>
+        <Route path='/app/finish'>
+          <FinishPage userState={userState} round={round} loading={state.loading} {...rest} />
+        </Route>
+        {/* <Route path='/app'>
+          {
+            round.isDone
+              ? <Redirect
+                to={{
+                  pathname: '/app/finish'
+                }}
+              />
+              : <Redirect to='/app/guess' />
+          }
+        </Route> */}
+        <Redirect from='/app' to='/app/guess' />
       </Switch>
     </div>
   )

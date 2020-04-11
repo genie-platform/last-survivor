@@ -9,7 +9,6 @@ import { createBrowserHistory } from 'history'
 
 import LoginPage from './pages/Login/Login'
 import AppPage from './pages/App'
-import SailsPage from './pages/Sails/Sails'
 import ProfilePage from './pages/Profile/Profile'
 import IntroPage from './pages/Intro/Intro'
 import Layout from './components/Layout/Layout'
@@ -125,9 +124,6 @@ export default class Root extends Component {
           </Route>
           <Route path='/login'>
             <LoginPage onLoginSuccess={this.handleLoginSuccess} currentRound={this.state.currentRound} />
-          </Route>
-          <Route path='/sails'>
-            <SailsPage userStates={this.state.myRounds} />
           </Route>
           <Route path='/profile'>
             <ProfilePage userStates={this.state.myRounds} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />

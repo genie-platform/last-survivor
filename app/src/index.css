@@ -39,6 +39,12 @@ code {
   cursor: pointer;
 }
 
+
+.disabled {
+  color: gray !important;
+  cursor: initial !important;
+}
+
 .next-up {
   position: absolute;
   top: 20px;
@@ -51,4 +57,12 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.left {
+  text-align: left;
+}
+
+.hidden {
+  visibility: hidden;
 }

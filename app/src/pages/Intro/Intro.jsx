@@ -70,7 +70,7 @@ export default function Intro ({ onIntroDone }) {
   const handleNext = () => {
     if (slide === slides.length - 1) {
       onIntroDone(true)
-      history.push('/app/guess')
+      history.push('/app/')
     } else {
       setSlide(slide + 1)
     }

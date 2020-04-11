@@ -7,7 +7,8 @@ const RoundSchema = new Schema({
   startingAt: { type: Date, required: [true, "can't be blank"] },
   endingAt: { type: Date, required: [true, "can't be blank"] },
   winnerId: { type: String },
-  reward: { type: String }
+  reward: { type: String },
+  isDone: { type: Boolean, default: false }
 }, { timestamps: true })
 
 RoundSchema.statics.startRound = function (cb) {
