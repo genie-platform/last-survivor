@@ -6,7 +6,6 @@ import {
 import './Guess.css'
 import moment from 'moment'
 
-
 const formatDate = (d) => moment(d).format('Do of MMMM, h [o\'clock] a')
 
 export default function Guess ({ userState, loading, round, onIntroDone, handleMakeGuess }) {
@@ -19,6 +18,8 @@ export default function Guess ({ userState, loading, round, onIntroDone, handleM
   useEffect(() => {
     if (userState.guess) {
       setValue(userState.guess)
+    } else {
+      setValue(0)
     }
   }, [userState.guess])
 
@@ -60,9 +61,9 @@ export default function Guess ({ userState, loading, round, onIntroDone, handleM
         userState.guess
           ? round.isDone
             ? <Link to='/app/finish'>
-              <div className='next'>{'Continue->'}</div>
+              <div className='next'>{'To Shore->'}</div>
             </Link>
-            : <div className='next disabled'>{'Continue->'}</div>
+            : <div className='next disabled'>{'To Shore->'}</div>
           : <div onClick={() => handleMakeGuess(value)} className='next'>{'Confirm->'}</div>
 
       }

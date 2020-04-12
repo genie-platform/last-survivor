@@ -69,6 +69,10 @@ export default class Root extends Component {
     this.setState({ profile })
   }
 
+  handleStartOver = async () => {
+    return this.fetchCurrentRound()
+  }
+
   async componentDidUpdate (prevProps, prevState) {
     if (this.state.user.isAuthenticated && !prevState.user.isAuthenticated) {
       this.fetchMyWins()
@@ -120,7 +124,7 @@ export default class Root extends Component {
       <Router history={history}>
         <Switch>
           <Route path='/app'>
-            <AppPage user={this.state.user} currentRound={this.state.currentRound} onIntroDone={this.handleIntroDone} />
+            <AppPage user={this.state.user} currentRound={this.state.currentRound} onIntroDone={this.handleIntroDone} onStartOver={this.handleStartOver} />
           </Route>
           <Route path='/login'>
             <LoginPage onLoginSuccess={this.handleLoginSuccess} currentRound={this.state.currentRound} />

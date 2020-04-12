@@ -6,7 +6,7 @@ import {
 
 import Back from '../../components/Back'
 
-function Finish ({ round, userState }) {
+function Finish ({ round, userState, startOver }) {
   const [isRevealed, setReveal] = useState(false)
 
   if (!round) {
@@ -41,7 +41,7 @@ function Finish ({ round, userState }) {
       </div>
       <Back />
       <Link to='/profile'><div className='next-up'>{'My Profile->'}</div></Link>
-      <Link to='/profile'><div className='next'>{'Sail Again->'}</div></Link>
+      <Link to='/app/guess'><div onClick={startOver} className='next'>{'Sail Again->'}</div></Link>
     </div>
   )
 }

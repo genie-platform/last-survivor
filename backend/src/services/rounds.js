@@ -45,24 +45,31 @@ const claimRewards = async (user) => {
       winnerAccountAddress: user.accountAddress
     }
   })
+}
 
-  // const rounds = await Round.find({ winnerId: user._id })
-  // for (let round of rounds) {
-  //   await request.post(`${config.get('crypto.apiBase')}/prizes/claim`, {
-  //     headers: {
-  //       'Authorization': `Bearer ${config.get('crypto.jwt')}`
-  //     },
-  //     json: true,
-  //     body: {
-  //       winnerId: user._id,
-  //       winnerAccountAddress: user.accountAddress
-  //     }
-  //   })
-  // }
+const startRound = async () => {
+  await determineWinners()
+
+  const startingAt = new Date()
+
+  const intersectedRound = await Round.findOne({ endingAt: { $gte: startingAt } })
+  if (intersectedRound) {
+    throw new Error('New round already started')
+  }
+
+  const endingAt = new Date()
+  endingAt.setHours(startingAt.getHours() + 24)
+  const round = await new Round({
+    startingAt,
+    endingAt
+  }).save()
+  console.log(`new round starting at ${round.startingAt}, finishes at: ${round.endingAt}`)
+  return round
 }
 
 module.exports = {
   determineWinners,
   determineWinner,
+  startRound,
   claimRewards
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Switch,
   Route,
@@ -6,15 +6,22 @@ import {
 } from 'react-router-dom'
 import GuessPage from './Guess/Guess'
 import FinishPage from './Finish/Finish'
-import { fetchLastUserState, makeGuess } from '../api/game'
+import { fetchLastUserState, makeGuess, createUserState } from '../api/game'
 import { useAsync } from 'react-use'
+import isEmpty from 'lodash/isEmpty'
 
-export default function App({ user, currentRound, ...rest }) {
+export default function App ({ user, currentRound, onStartOver, ...rest }) {
   const [userState, setUserState] = useState({})
 
   const handleMakeGuess = (guess) => {
-    makeGuess(guess)
+    makeGuess(userState._id, guess)
     setUserState({ ...user, guess })
+  }
+
+  const startOver = async () => {
+    await onStartOver()
+    const userState = await createUserState()
+    setUserState(userState)
   }
 
   const state = useAsync(async () => {
@@ -26,6 +33,13 @@ export default function App({ user, currentRound, ...rest }) {
       return data
     }
   }, [user.isAuthenticated])
+
+  useEffect(() => {
+    if (!state.loading && isEmpty(userState)) {
+      startOver()
+      // if (userState)
+    }
+  }, [state.loading, userState])
 
   if (!user.isAuthenticated) {
     return <Redirect
@@ -46,8 +60,8 @@ export default function App({ user, currentRound, ...rest }) {
     return null
   }
 
-  const round = userState ? userState.round : currentRound
-
+  const round = (userState && userState.round) ? userState.round : currentRound
+  debugger
   return (
     <div>
       <Switch>
@@ -55,7 +69,7 @@ export default function App({ user, currentRound, ...rest }) {
           <GuessPage userState={userState} round={round} loading={state.loading} handleMakeGuess={handleMakeGuess} {...rest} />
         </Route>
         <Route path='/app/finish'>
-          <FinishPage userState={userState} round={round} loading={state.loading} {...rest} />
+          <FinishPage userState={userState} round={round} loading={state.loading} {...rest} startOver={startOver} />
         </Route>
         {/* <Route path='/app'>
           {

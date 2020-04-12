@@ -20,7 +20,7 @@ RoundSchema.statics.startRound = function (cb) {
 }
 
 RoundSchema.query.current = function () {
-  return this.where({ })
+  return this.where({ }).sort({ startingAt: -1 })
 }
 
 const Round = mongoose.model('Round', RoundSchema)
