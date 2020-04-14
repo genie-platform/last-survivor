@@ -1,22 +1,26 @@
 const mongoose = require('mongoose')
+const config = require('config')
+const humanInterval = require('human-interval')
 const { Schema } = mongoose
-
-const ROUND_INTERVAL = 2 * 60 * 60 * 1000 // two hours
 
 const RoundSchema = new Schema({
   startingAt: { type: Date, required: [true, "can't be blank"] },
   endingAt: { type: Date, required: [true, "can't be blank"] },
   winnerId: { type: String },
   reward: { type: String },
+  guess: { type: Number },
   isDone: { type: Boolean, default: false }
 }, { timestamps: true })
 
-RoundSchema.statics.startRound = function (cb) {
-  const now = new Date()
+RoundSchema.statics.createRound = function (startingAt, cb) {
   return new Round({
-    startingAt: now,
-    endingAt: new Date(now.getTime() + ROUND_INTERVAL)
+    startingAt,
+    endingAt: new Date(startingAt.getTime() + Round.getRoundInterval())
   }).save(cb)
+}
+
+RoundSchema.statics.getRoundInterval = function (cb) {
+  return humanInterval(config.get('rounds.interval'))
 }
 
 RoundSchema.query.current = function () {

@@ -37,7 +37,6 @@ export default function App ({ user, currentRound, onStartOver, ...rest }) {
   useEffect(() => {
     if (!state.loading && isEmpty(userState)) {
       startOver()
-      // if (userState)
     }
   }, [state.loading, userState])
 
@@ -61,7 +60,7 @@ export default function App ({ user, currentRound, onStartOver, ...rest }) {
   }
 
   const round = (userState && userState.round) ? userState.round : currentRound
-  debugger
+
   return (
     <div>
       <Switch>

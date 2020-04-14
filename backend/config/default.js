@@ -26,6 +26,9 @@ module.exports = {
     }
   },
   crypto: {
-    apiBase: "http://localhost:3000/api/v1"
+    apiBase: 'http://localhost:3000/api/v1'
+  },
+  rounds: {
+    interval: '1 minute'
   }
 }

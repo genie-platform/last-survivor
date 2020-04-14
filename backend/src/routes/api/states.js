@@ -33,7 +33,16 @@ router.put('/', auth.required, async (req, res) => {
   const { guess, userStateId } = req.body
   const { user } = req
 
-  const userState = await UserState.findOneAndUpdate({ _id: userStateId, user: user.id }, { guess }, { new: true })
+  const userState = await UserState.findOne({ _id: userStateId, user: user.id }).populate('round')
+  if (!userState || !userState.round) {
+    return res.status(400).send({ error: 'Related user state is not found' })
+  }
+  if (userState.round.isDone) {
+    return res.status(400).send({ error: 'Cannot update finished round' })
+  }
+  userState.guess = guess
+  await userState.save()
+  // const userState = await UserState.findOneAndUpdate({ _id: userStateId, user: user.id }, { guess }, { new: true })
   res.send({ data: userState })
 })
 

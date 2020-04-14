@@ -34,6 +34,9 @@ async function init () {
 
   app.use(require('./routes'))
 
+  const agenda = require('./services/agenda')
+  agenda.start()
+
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {
     var err = new Error('Not Found')
