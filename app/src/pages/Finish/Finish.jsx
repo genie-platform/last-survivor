@@ -18,9 +18,6 @@ function Finish ({ round, userState, startOver }) {
       <div className='left'>
         {!userState.isWinner
           ? (<div>
-            Finally the ship arrived shore
-            <br />
-            <br />
             Unfortunately, the medics on shore quickly discovered two red dots on your neck.
             <br />
             <br />
@@ -36,7 +33,16 @@ function Finish ({ round, userState, startOver }) {
               {`And by the way, the survived cabin is ${round.guess}, not ${userState.guess}`}
             </div>
           </div>)
-          : 'You win'
+          : <div>
+            Among all the pasenger's you've been the only one to pass the medic examination successfully.
+            <br />
+            <br />
+            Congrats, you survived the sailing, <br />
+            You are the last survivor :tada:
+            <br />
+            <br />
+            Go to profile to claim your reward.
+          </div>
         }
       </div>
       <Back />

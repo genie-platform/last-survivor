@@ -8,7 +8,7 @@ import moment from 'moment'
 
 const formatDate = (d) => moment(d).format('Do of MMMM, h [o\'clock] a')
 
-export default function Guess ({ userState, loading, round, onIntroDone, handleMakeGuess }) {
+export default function Guess({ userState, loading, round, onIntroDone, handleMakeGuess }) {
   const [value, setValue] = useState(0)
 
   const handleChange = (event) => {
@@ -54,6 +54,10 @@ export default function Guess ({ userState, loading, round, onIntroDone, handleM
                 <div className='center'><input type='number' value={value} onChange={handleChange} /></div>
               </>
           }
+          {/* {
+            round.isDone
+            ? 
+          } */}
         </div>
       </div>
       <div onClick={handleBack} className='back'>{'<-Intro'}</div>
@@ -64,9 +68,27 @@ export default function Guess ({ userState, loading, round, onIntroDone, handleM
               <div className='next'>{'To Shore->'}</div>
             </Link>
             : <div className='next disabled'>{'To Shore->'}</div>
-          : <div onClick={() => handleMakeGuess(value)} className='next'>{'Confirm->'}</div>
+          : <div
+            className={classNames({ next: true, disabled: !value })}
+            onClick={() => handleMakeGuess(value)}
+          >
+            {'Confirm->'}
+          </div>
 
       }
+      {/* {
+        round.isDone
+          ? userState.guess
+            ? <Link to='/app/finish'>
+              <div className='next'>{'To Shore->'}</div>
+            </Link>
+            : <Link to='/app/finish'>
+              <div className='next'>{'New Game->'}</div>
+            </Link>
+          : userState.guess
+            ? <div className='next disabled'>{'To Shore->'}</div>
+            : <div onClick={() => handleMakeGuess(value)} className='next'>{'Confirm->'}</div>
+      } */}
       <Link to='/profile'><div className='next-up'>{'My Profile->'}</div></Link>
     </div>
   )

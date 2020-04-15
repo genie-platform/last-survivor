@@ -9,25 +9,31 @@ import FinishPage from './Finish/Finish'
 import { fetchLastUserState, makeGuess, createUserState } from '../api/game'
 import { useAsync } from 'react-use'
 import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
 
 export default function App ({ user, currentRound, onStartOver, ...rest }) {
   const [userState, setUserState] = useState({})
 
   const handleMakeGuess = (guess) => {
+    debugger
     makeGuess(userState._id, guess)
     setUserState({ ...user, guess })
   }
 
   const startOver = async () => {
+    debugger
     await onStartOver()
-    const userState = await createUserState()
-    setUserState(userState)
+    debugger
+    const { data } = await createUserState()
+    debugger
+    setUserState(data)
   }
 
   const state = useAsync(async () => {
     if (user.isAuthenticated) {
       const { data } = await fetchLastUserState()
       if (data) {
+        debugger
         setUserState(data)
       }
       return data
@@ -35,7 +41,7 @@ export default function App ({ user, currentRound, onStartOver, ...rest }) {
   }, [user.isAuthenticated])
 
   useEffect(() => {
-    if (!state.loading && isEmpty(userState)) {
+    if (!state.loading && (isEmpty(userState) || (get(userState, 'round.isDone') && !userState.guess))) {
       startOver()
     }
   }, [state.loading, userState])

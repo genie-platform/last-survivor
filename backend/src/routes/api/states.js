@@ -13,7 +13,8 @@ router.get('/last', auth.required, async (req, res) => {
 router.post('/', auth.required, async (req, res) => {
   const { user } = req
   const round = await Round.findOne().current()
-  const currentState = await UserState.findOne({ round, user: user.id })
+  console.log({ round })
+  const currentState = await UserState.findOne({ round, user: user.id }).populate('round')
 
   if (currentState) {
     console.error('User already has a state')
@@ -32,6 +33,10 @@ router.post('/', auth.required, async (req, res) => {
 router.put('/', auth.required, async (req, res) => {
   const { guess, userStateId } = req.body
   const { user } = req
+
+  if (!guess || !userStateId) {
+    return res.status(400).send({ error: 'Body params are missing' })
+  }
 
   const userState = await UserState.findOne({ _id: userStateId, user: user.id }).populate('round')
   if (!userState || !userState.round) {
