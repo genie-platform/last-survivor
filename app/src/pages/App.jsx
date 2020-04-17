@@ -15,17 +15,13 @@ export default function App ({ user, currentRound, onStartOver, ...rest }) {
   const [userState, setUserState] = useState({})
 
   const handleMakeGuess = (guess) => {
-    debugger
     makeGuess(userState._id, guess)
     setUserState({ ...user, guess })
   }
 
   const startOver = async () => {
-    debugger
     await onStartOver()
-    debugger
     const { data } = await createUserState()
-    debugger
     setUserState(data)
   }
 
@@ -33,7 +29,6 @@ export default function App ({ user, currentRound, onStartOver, ...rest }) {
     if (user.isAuthenticated) {
       const { data } = await fetchLastUserState()
       if (data) {
-        debugger
         setUserState(data)
       }
       return data

@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import './config/index'
 import './index.css'
 import Root from './Root'
 import * as serviceWorker from './serviceWorker'
-
-console.log(Root)
 
 ReactDOM.render(
   <React.StrictMode>
