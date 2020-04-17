@@ -6,7 +6,6 @@
     "port": "PORT",
     "auth": {
       "google": {
-        "clientID": "GAME_API_AUTH_GOOGLE_CLIENT_ID",
         "clientSecret": "GAME_API_AUTH_GOOGLE_CLIENT_SECRET"
       }
     }
