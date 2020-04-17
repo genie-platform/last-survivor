@@ -1,34 +1,34 @@
 {
   "api": {
-    "allowCors": "GAME_API_ALLOW_CORS",
-    "secret": "GAME_API_SECRET",
-    "tokenExpiresIn": "GAME_TOKEN_EXPIRES_IN",
+    "allowCors": "SURVIVOR_API_ALLOW_CORS",
+    "secret": "SURVIVOR_API_SECRET",
+    "tokenExpiresIn": "SURVIVOR_TOKEN_EXPIRES_IN",
     "port": "PORT",
     "auth": {
       "google": {
-        "clientSecret": "GAME_API_AUTH_GOOGLE_CLIENT_SECRET"
+        "clientSecret": "SURVIVOR_API_AUTH_GOOGLE_CLIENT_SECRET"
       }
     }
   },
   "aws": {
     "secrets": {
-      "secretId": "GAME_AWS_SECRET_ID",
+      "secretId": "SURVIVOR_AWS_SECRET_ID",
        "manager": {
-        "region": "GAME_AWS_SECRET_MANAGER_REGION"
+        "region": "SURVIVOR_AWS_SECRET_MANAGER_REGION"
       }
     }
   },
   "mongo": {
-    "uri": "GAME_MONGO_URI",
-    "debug": "GAME_MONGO_DEBUG"
+    "uri": "SURVIVOR_MONGO_URI",
+    "debug": "SURVIVOR_MONGO_DEBUG"
   },
   "secrets": {
     "accounts": {
-      "seed": "GAME_SECRETS_ACCOUNTS_SEED"
+      "seed": "SURVIVOR_SECRETS_ACCOUNTS_SEED"
     }
   },
   "crypto": {
-    "jwt": "GAME_CRYPTO_JWT"
+    "jwt": "SURVIVOR_CRYPTO_JWT"
   },
   "auth": {
 
