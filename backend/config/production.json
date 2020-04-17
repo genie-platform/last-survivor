@@ -4,5 +4,11 @@
   },
   "mongo": {
     "debug": false
+  },
+  "rounds": {
+    "interval": "24 hours"
+  },
+  "crypto": {
+    "apiBase": "https://api.thegenie.xyz/api/v1"
   }
 }
