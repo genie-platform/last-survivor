@@ -29,6 +29,14 @@
   position: fixed;
 }
 
+.bottom > .container {
+  display: flex;
+}
+
+.container > div {
+  padding: 10px;
+}
+
 .layout > .footer {
   position: absolute;
   bottom: -60px;
