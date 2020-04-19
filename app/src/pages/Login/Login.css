@@ -8,6 +8,15 @@
   text-align: center;
 }
 
+.login .bottom {
+  position: absolute;
+  bottom: 10px;
+  left: 0px;
+  right: 0px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
 .blink {
   animation: blink-animation 2s steps(5, start) infinite;
   -webkit-animation: blink-animation 2s steps(5, start) infinite;
