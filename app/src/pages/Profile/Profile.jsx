@@ -20,7 +20,6 @@ export default function Rewards ({ userStates, profile, updateAccountAddress }) 
     updateAccountAddress(accountAddress)
   }
 
-
   return (
     <div>
       <div className='page-title'>Profile</div>
@@ -28,7 +27,7 @@ export default function Rewards ({ userStates, profile, updateAccountAddress }) 
         {
           userStatesWins.length > 0
             ? `Congratulations, you survived ${userStatesWins.length} sails`
-            : 'Such a pitty, You didn\'t survived'
+            : null
         }
       </div>
       {
