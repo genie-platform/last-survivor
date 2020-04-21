@@ -35,7 +35,8 @@ export default function Guess({ userState, loading, round, onIntroDone, handleMa
         <br />
         <br />
         {`The ship is leaving the shore on ${formatDate(round.startingAt)} exactly. `}
-        {`And reaches its destionation on ${formatDate(round.endingAt)}, approximately.`}
+        <br />
+        {`And reaches its destination on ${formatDate(round.endingAt)}, approximately.`}
         <br />
         <div className={classNames({ hidden: loading })}>
           {
@@ -50,8 +51,10 @@ export default function Guess({ userState, loading, round, onIntroDone, handleMa
                 }
               </>
               : <>
-                <span>Now, please choose your cabin bellow</span>
+                <br />
+                <div className='center'>Now, please choose your cabin bellow</div>
                 <div className='center'><input type='number' value={value} onChange={handleChange} /></div>
+                <div className='center'>{`you'll arrive shore in ${moment(round.endingAt).diff(round.startingAt, 'hours')} hours`}</div>
               </>
           }
           {/* {
