@@ -34,8 +34,7 @@ export default function LoginPage ({ onLoginSuccess, currentRound }) {
       <div className='text'>
         Become the last one to survive and win
         <br />
-        {/* <div className='blink'>1 DAI (on Kovan)</div> */}
-        <div className='blink'>{currentRound && currentRound.reward && `${Math.round(currentRound.reward * 100) / 100} DAI`}</div>
+        <div className='blink'>{currentRound && currentRound.reward && `${Math.round(currentRound.reward * 100) / 100} kovan DAI`}</div>
       </div>
       <div className='bottom'><a href='https://makerdao.com/' target='_blank' rel='noopener noreferrer'>What is DAI?</a></div>
     </div>
