@@ -6,10 +6,15 @@ import {
 } from 'react-router-dom'
 import GuessPage from './Guess/Guess'
 import FinishPage from './Finish/Finish'
+import withTracker from '../components/withTracker'
 import { fetchLastUserState, makeGuess, createUserState } from '../api/game'
 import { useAsync } from 'react-use'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
+
+const GuessPageWithTracker = withTracker(GuessPage)
+const FinishPageWithTracker = withTracker(FinishPage)
+
 
 export default function App ({ user, currentRound, onStartOver, ...rest }) {
   const [userState, setUserState] = useState({})
@@ -66,10 +71,10 @@ export default function App ({ user, currentRound, onStartOver, ...rest }) {
     <div>
       <Switch>
         <Route path='/app/guess'>
-          <GuessPage userState={userState} round={round} loading={state.loading} handleMakeGuess={handleMakeGuess} {...rest} />
+          <GuessPageWithTracker userState={userState} round={round} loading={state.loading} handleMakeGuess={handleMakeGuess} {...rest} />
         </Route>
         <Route path='/app/finish'>
-          <FinishPage userState={userState} round={round} loading={state.loading} {...rest} startOver={startOver} />
+          <FinishPageWithTracker userState={userState} round={round} loading={state.loading} {...rest} startOver={startOver} />
         </Route>
         {/* <Route path='/app'>
           {

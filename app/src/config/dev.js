@@ -7,5 +7,11 @@ window.CONFIG = {
       }
     },
     baseUrl: 'http://localhost:3002/api/v1'
+  },
+  googleAnalytics: {
+    trackingId: 'UA-164185286-1',
+    options: {
+      testMode: true
+    }
   }
 }

@@ -6,5 +6,10 @@ window.CONFIG = {
       }
     },
     baseUrl: '/api/v1'
+  },
+  googleAnalytics: {
+    options: {
+      testMode: false
+    }
   }
 }

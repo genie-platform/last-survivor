@@ -12,24 +12,17 @@ import AppPage from './pages/App'
 import ProfilePage from './pages/Profile/Profile'
 import IntroPage from './pages/Intro/Intro'
 import Layout from './components/Layout/Layout'
+import withTracker from './components/withTracker'
+
 import { fetchMyWins, fetchMyRounds, fetchCurrentRound } from './api/game'
-
 import { fetchProfile, updateAccountAddress } from './api/users'
-
 import { saveState, loadState } from './utils/storage'
 
 const history = createBrowserHistory()
 
-// window.CONFIG = {
-//   api: {
-//     auth: {
-//       google: {
-//         clientId: '258894479393-0msb45loib4653r6kq2bc21kdiq0jbr4.apps.googleusercontent.com'
-//       }
-//     },
-//     baseUrl: 'http://localhost:3002/api/v1'
-//   }
-// }
+const LoginPageWithTracker = withTracker(LoginPage)
+const ProfilePageWithTracker = withTracker(ProfilePage)
+const IntroPageWithTracker = withTracker(IntroPage)
 
 export default class Root extends Component {
   constructor (props) {
@@ -127,13 +120,13 @@ export default class Root extends Component {
             <AppPage user={this.state.user} currentRound={this.state.currentRound} onIntroDone={this.handleIntroDone} onStartOver={this.handleStartOver} />
           </Route>
           <Route path='/login'>
-            <LoginPage onLoginSuccess={this.handleLoginSuccess} currentRound={this.state.currentRound} />
+            <LoginPageWithTracker onLoginSuccess={this.handleLoginSuccess} currentRound={this.state.currentRound} />
           </Route>
           <Route path='/profile'>
-            <ProfilePage userStates={this.state.myRounds} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />
+            <ProfilePageWithTracker userStates={this.state.myRounds} profile={this.state.profile} updateAccountAddress={this.updateAccountAddress} />
           </Route>
           <Route path='/intro'>
-            <IntroPage onIntroDone={this.handleIntroDone} />
+            <IntroPageWithTracker onIntroDone={this.handleIntroDone} />
           </Route>
           <Redirect from='/' to='/app' />
         </Switch>
