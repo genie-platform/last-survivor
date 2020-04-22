@@ -26,7 +26,6 @@ const withTracker = (WrappedComponent, options = {}) => {
     const location = useLocation()
 
     useEffect(() => {
-      console.log(location.pathname)
       trackPage(location.pathname)
     }, [location])
 

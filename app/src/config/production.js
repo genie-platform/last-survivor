@@ -8,6 +8,7 @@ window.CONFIG = {
     baseUrl: '/api/v1'
   },
   googleAnalytics: {
+    trackingId: 'UA-164185286-1',
     options: {
       testMode: false
     }
